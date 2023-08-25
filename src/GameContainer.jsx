@@ -2,31 +2,41 @@ import { Container } from "react-bootstrap";
 import "./button.css";
 import { useEffect, useState } from "react";
 import { Prev } from "react-bootstrap/esm/PageItem";
+import randomcolor from "randomcolor";
 
 export default function GameContainer() {
+    const initialButtonColors = Array.from({ length: 9 }, () =>
+        randomcolor({ format: "rgb" })
+    );
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [score, setScore] = useState(0);
-
+    const [buttonColors, setButtonColors] = useState(initialButtonColors);
+    const [colorIndex, setColorIndex] = useState(getRandomButtonIndex());
     const openModal = () => {
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setScore(0);
-        const newColors = buttonColors.map(getRandomColor);
+        const newColors = Array.from({ length: 9 }, () =>
+            randomcolor({ format: "rgb" })
+        );
+        setColorIndex(getRandomButtonIndex());
         setButtonColors(newColors);
         setIsModalOpen(false);
     };
 
-    const [buttonColors, setButtonColors] = useState(Array(9).fill(null));
-
-    function handleClick(event, selectedColor) {
+    function handleClick(event) {
         if (
             window.document.getElementById("selectedColor").innerHTML ===
             window.getComputedStyle(event.target).backgroundColor
         ) {
             console.log(true);
-            const newColors = buttonColors.map(getRandomColor);
+            const newColors = Array.from({ length: 9 }, () =>
+                randomcolor({ format: "rgb" })
+            );
+            setColorIndex(getRandomButtonIndex());
+
             setButtonColors(newColors);
             setScore(score + 1);
         } else {
@@ -34,30 +44,20 @@ export default function GameContainer() {
             openModal();
         }
     }
+    function getRandomColor() {
+        return buttonColors[getRandomButtonIndex];
+    }
 
-    function getRandomButtonColor() {
+    function getRandomButtonIndex() {
         const min = 0;
         const max = buttonColors.length;
-        return Math.floor(Math.random() * (max - min)) + min;
+        const randomindex = Math.floor(Math.random() * (max - min)) + min;
+        console.log("aaa", randomindex);
+        return randomindex;
     }
-
-    useEffect(() => {
-        // Uygulama başladığında her butona farklı bir rastgele renk atama
-        const randomColors = Array(9)
-            .fill(null)
-            .map(() => getRandomColor());
-        setButtonColors(randomColors);
-    }, []);
 
     // Rastgele renk üreten fonksiyon
-    function getRandomColor() {
-        const randomColor = `rgb(${Math.floor(
-            Math.random() * 256
-        )}, ${Math.floor(Math.random() * 256)}, ${Math.floor(
-            Math.random() * 256
-        )})`;
-        return randomColor;
-    }
+
     return (
         <>
             <div className="">
@@ -68,15 +68,13 @@ export default function GameContainer() {
                                 id="selectedColor"
                                 className="card-header p-3 text-center"
                             >
-                                {buttonColors[getRandomButtonColor()]}
+                                {buttonColors[colorIndex]}
                             </h1>
                             <div className="card-body">
                                 <div className="row m-2">
                                     <button
                                         id="0"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[0],
@@ -84,9 +82,7 @@ export default function GameContainer() {
                                     ></button>
                                     <button
                                         id="1"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[1],
@@ -94,9 +90,7 @@ export default function GameContainer() {
                                     ></button>
                                     <button
                                         id="2"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[2],
@@ -106,9 +100,7 @@ export default function GameContainer() {
                                 <div className="row m-2">
                                     <button
                                         id="3"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[3],
@@ -116,9 +108,7 @@ export default function GameContainer() {
                                     ></button>
                                     <button
                                         id="4"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[4],
@@ -126,9 +116,7 @@ export default function GameContainer() {
                                     ></button>
                                     <button
                                         id="5"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[5],
@@ -138,9 +126,7 @@ export default function GameContainer() {
                                 <div className="row m-2">
                                     <button
                                         id="6"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[6],
@@ -148,9 +134,7 @@ export default function GameContainer() {
                                     ></button>
                                     <button
                                         id="7"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[7],
@@ -158,9 +142,7 @@ export default function GameContainer() {
                                     ></button>
                                     <button
                                         id="8"
-                                        onClick={() =>
-                                            handleClick(event, selectedColor)
-                                        }
+                                        onClick={() => handleClick(event)}
                                         className="col btn m-3"
                                         style={{
                                             backgroundColor: buttonColors[8],
